@@ -14,7 +14,7 @@
         </div>
         <div class="flex flex-col">
             <h1>Fairmont Jakarta</h1> 
-            <font-awesome-icon :icon="['fas', 'star']" />
+            <!-- <font-awesome-icon :icon="['fas', 'star']" /> -->
             <span>Hotel</span>
             <span>Jl. Asia Afrika No.8, Gelora Bung Karno, Jakarta, Indonesia 10270</span>
             <span>Excellent 254 reviews</span>
