@@ -11,7 +11,7 @@ Header =
 - ketika click input place , input yang lain harus ketutup
 - shadow DDl tiap input 
 - calendar kurang sama dari UI
-- Children info 
+- Children info (Dine)
 - refactor code UI (done)
 - change global state to local in Input Place (done)
 - bugfix fetch data autocomplete input place (done)
@@ -19,6 +19,7 @@ Header =
 - input date checkin checkout (done)
 - input total room and guest (done)
 - pay attention to detail 
+
 
 
 

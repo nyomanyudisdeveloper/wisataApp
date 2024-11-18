@@ -19,6 +19,7 @@ const {inputDataForSearch,setInputDataForSearch,isModalShow} = defineProps({
 })
 
 async function clickInput(){
+    setInputActive("place")
     var currentShow = isDdlPlaceShow.value
     if(currentShow){
         isDdlPlaceShow.value = false

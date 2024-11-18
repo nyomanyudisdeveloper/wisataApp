@@ -9,6 +9,7 @@ const {inputDataForSearch,setInputDataForSearch} = defineProps({
 const isModalInputShow = ref(false)
 const isModalChildren = ref(false)
 
+
 function clickInput(){
     isModalInputShow.value = !isModalInputShow.value
 }
@@ -98,4 +99,37 @@ function changeNumberTotalRoom(number){
             </div>
         </div>
     </div>
+    <div v-if="isModalChildren" @click="clickChildrenInfo" class="fixed w-full h-full bg-slate-600/30 top-0 left-0 z-30 ">
+        <div @click.stop class="absolute bg-white bottom-0 left-0 w-full rounded-t-lg sm:hidden">
+            <div class="flex flex-row justify-center items-center m-3">
+                <FontAwesomeIcon :icon="['fas', 'circle-info']"  />
+                <h3 class="ml-3 text-base font-semibold">What about children? </h3>
+            </div>
+            <p class="m-3 text-justify text-sm font-light">
+                Most hotels permit children to use existing bedding when sharing 
+                the room with parent or guardian. Rules may vary, be sure to check 
+                each hotel occupancy policy.
+            </p>
+            <div class="p-3">
+                <UiPrimaryButton :click="isModalChildren" title="Search"  />
+            </div>
+        </div>
+        <div class="hidden sm:flex justify-center items-center  h-full">
+            <div @click.stop class="flex flex-col w-96 bg-white rounded-lg ">
+                <div class="flex flex-row justify-center items-center m-3">
+                    <FontAwesomeIcon :icon="['fas', 'circle-info']"  />
+                    <h3 class="ml-3 text-base font-semibold">What about children? </h3>
+                </div>
+                <p class="m-3 text-justify text-sm font-light">
+                    Most hotels permit children to use existing bedding when sharing 
+                    the room with parent or guardian. Rules may vary, be sure to check 
+                    each hotel occupancy policy.
+                </p>
+                <div class="p-3">
+                    <UiPrimaryButton @click="clickChildrenInfo" title="Close"  />
+                </div>
+            </div>
+        </div>
+    </div>
+    
 </template>

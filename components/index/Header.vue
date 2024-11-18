@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import {convertTwoDateStringToStringDisplay} from "../../utils/dateUtils"
 
 const isModalShow = ref(false)
+
 const inputDataForSearch = ref({
     id:"", 
     name:"",
@@ -15,7 +16,6 @@ const inputDataForSearch = ref({
     totalRoom:1,
     locationType:""
 })
-
 
 const setInputDataForSearch = (data) => {
     inputDataForSearch.value = data
@@ -98,12 +98,16 @@ async function clickSearch(){
                             :inputDataForSearch="inputDataForSearch"
                             :setInputDataForSearch="setInputDataForSearch"
                             :isModalShow="isModalShow"
+                            :inputActive="inputActive"
+                            :setInputActive="setInputActive"
                         />
                     </div>
                     <div class="w-full sm:w-6/12">
                         <IndexHeaderInputTotalRoomAndGuest 
                         :inputDataForSearch="inputDataForSearch"
                         :setInputDataForSearch="setInputDataForSearch"
+                        :inputActive="inputActive"
+                        :setInputActive="setInputActive"
                         />
                     </div>
                 </div>
