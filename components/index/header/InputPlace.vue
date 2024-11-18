@@ -16,39 +16,12 @@ const {inputDataForSearch,setInputDataForSearch,isModalShow} = defineProps({
     inputDataForSearch:{type:Object,required:true},
     setInputDataForSearch:{type:Object,required:true},
     isModalShow:{type:Object,required:true},
+    setInputActive:{type:Object,required:true},
+    inputActive:{type:Object,required:true}
 })
 
 async function clickInput(){
-    setInputActive("place")
-    var currentShow = isDdlPlaceShow.value
-    if(currentShow){
-        isDdlPlaceShow.value = false
-        const placeValueDisplay = inputDataForSearch.name + ", "+ inputDataForSearch.address
-        if(inputPlaceDesc.value != placeValueDisplay){
-            isOptionPlaceClicked.value = true
-            inputPlaceDesc.value = placeValueDisplay
-        }
-    }
-    else{
-        if(inputPlaceDesc.value.length > 2){
-            isLoadShow.value = true
-            isListOptionDdlPlaceShow.value = false
-            isDdlPlaceShow.value = true
-            const urlGetLocation = `https://project-technical-test-api.up.railway.app/location/search?query=${inputPlaceDesc.value}`
-            const responseLocation = await $fetch(urlGetLocation)
-            listLocationData.value = responseLocation
-
-            const urlGetProperty = `https://project-technical-test-api.up.railway.app/property/search?query=${inputPlaceDesc.value}`
-            const responseProperty = await $fetch(urlGetProperty)
-            listPropertyData.value = responseProperty
-
-            isLoadShow.value = false
-            isListOptionDdlPlaceShow.value = true
-        }
-        else{
-            isDdlPlaceShow.value = false
-        }
-    }
+    await fetchData()
 }
 
 
@@ -93,35 +66,34 @@ watch(() => isModalShow, async(newData,oldData) => {
     isOpenForFirstTime.value = true
 })
 
-watch(inputPlaceDesc,async(newData,oldData) => {
-    if(isOptionPlaceClicked.value){
-        isOptionPlaceClicked.value = false
-    }
-    else if(isOpenForFirstTime.value){
-        isOpenForFirstTime.value = false
+const fetchData = async () => {
+    if(inputPlaceDesc.value.length > 2){
+        isDdlPlaceShow.value = true
+        isLoadShow.value = true
+        isListOptionDdlPlaceShow.value = false
+
+        const urlGetLocation = `https://project-technical-test-api.up.railway.app/location/search?query=${inputPlaceDesc.value}`
+        const responseLocation = await $fetch(urlGetLocation)
+        listLocationData.value = responseLocation
+
+        const urlGetProperty = `https://project-technical-test-api.up.railway.app/property/search?query=${inputPlaceDesc.value}`
+        const responseProperty = await $fetch(urlGetProperty)
+        listPropertyData.value = responseProperty
+
+        isLoadShow.value = false
+        isListOptionDdlPlaceShow.value = true
     }
     else{
-        if(newData.length > 2){
-            isDdlPlaceShow.value = true
-            isLoadShow.value = true
-            isListOptionDdlPlaceShow.value = false
-
-            const urlGetLocation = `https://project-technical-test-api.up.railway.app/location/search?query=${newData}`
-            const responseLocation = await $fetch(urlGetLocation)
-            listLocationData.value = responseLocation
-
-            const urlGetProperty = `https://project-technical-test-api.up.railway.app/property/search?query=${newData}`
-            const responseProperty = await $fetch(urlGetProperty)
-            listPropertyData.value = responseProperty
-
-            isLoadShow.value = false
-            isListOptionDdlPlaceShow.value = true
-        }
-        else{
-            isDdlPlaceShow.value = false
-        }
+        isDdlPlaceShow.value = false
     }
-    
+}
+
+watch(inputPlaceDesc,async(newData,oldData) => {
+    setTimeout(async () => {
+        if(newData == inputPlaceDesc.value){
+            await fetchData()
+        }
+    },300)
 })
 
 </script>
@@ -131,7 +103,7 @@ watch(inputPlaceDesc,async(newData,oldData) => {
         <span class="absolute -top-3 left-3 bg-white px-1 text-sm">Where are you going ?</span>
         <FontAwesomeIcon class="absolute top-5 left-2 w-5 h-5" :icon="['fas', 'location-dot']"  />
         <FontAwesomeIcon @click="deleteValue" class="absolute right-4 top-5 cursor-pointer w-6 h-6" :icon="['fas', 'fa-circle-xmark']"  />
-        <input v-model="inputPlaceDesc"  class="pl-8 pr-14 w-full h-full text-base rounded-md" type="text" placeholder="Search for hotels, apartement or villas" />
+        <input  v-model="inputPlaceDesc"  class="pl-8 pr-14 w-full h-full text-base rounded-md" type="text" placeholder="Search for hotels, apartement or villas" />
         <div @click.stop v-if="isDdlPlaceShow"  class="px-3 pb-3 rounded-md absolute bg-white w-full top-[70px] z-10 h-96 overflow-y-auto " style="box-shadow: 0px 0px 4px 4px #cbd5e1;">
             <div v-if="isLoadShow"  class="flex flex-row justify-center mt-5">
                 <UiLoader />

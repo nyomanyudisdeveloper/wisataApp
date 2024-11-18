@@ -4,6 +4,11 @@ import {convertTwoDateStringToStringDisplay} from "../../utils/dateUtils"
 
 const isModalShow = ref(false)
 
+const inputActive = ref("")
+const setInputActive = (data) => {
+    inputActive.value = data
+}
+
 const inputDataForSearch = ref({
     id:"", 
     name:"",
@@ -26,6 +31,7 @@ const {isModalImageShow,setIsModalImageShow,inputDataFixed,setInputDataFixed} = 
     inputDataFixed:{type:Object, required:true},
     setInputDataFixed:{type:Object, required:true},
 })
+
 
 function goToPrev(){
     if(isModalImageShow){
@@ -50,16 +56,15 @@ function searchNavClicked(){
     isModalShow.value = !isModalShow.value
 }
 
+function hideModal(){
+    isModalShow.value = false
+}
+
 async function clickSearch(){
     if(inputDataForSearch.value.id != ""){
         isModalShow.value = !isModalShow.value
         setInputDataFixed(inputDataForSearch.value)
     }
-    
-    // const responsePlaceInfoSummary = (await $fetch(`https://project-technical-test-api.up.railway.app/property/content?id=${indexHeaderStore.inputPlaceHeaderData.id}&include=general_info&include=important_info&include=image`))[indexHeaderStore.inputPlaceHeaderData.id]
-    // infoPlaceStore.setInfoPlace(responsePlaceInfoSummary)
-
-    // isModalShow.value = false
 }
 
 
@@ -67,14 +72,14 @@ async function clickSearch(){
 </script>
 
 <template>
-    <div class="w-full fixed bg-white top-0 left-0">
+    <div @click="hideModal" class="w-full fixed bg-white top-0 left-0">
         <div class="flex-row justify-between items-center flex flex-1 px-5 py-3 lg:max-w-5xl lg:mx-auto ">
             <div class="w-1/12 flex justify-center items-center sm:hidden">
                 <FontAwesomeIcon @click="goToPrev" class="  h-6 text-blue-400 " :icon="['fas', 'chevron-left']" />
             </div>
             <img class="hover:cursor-pointer hidden sm:flex w-30 h-10" alt="Wisata App logo" src="/img/logo.png"  />
             
-            <div @click="searchNavClicked" class="mx-1 transition flex justify-center items-center w-9/12 sm:w-6/12 md:w-7/12 h-10 rounded-lg hover:bg-slate-400 active:bg-slate-200 bg-slate-200 text-pretty ">
+            <div @click.stop @click="searchNavClicked" class="mx-1 transition flex justify-center items-center w-9/12 sm:w-6/12 md:w-7/12 h-10 rounded-lg hover:bg-slate-400 active:bg-slate-200 bg-slate-200 text-pretty ">
                 <FontAwesomeIcon class="mx-3 w-3 h-3" :icon="['fas', 'magnifying-glass']" />
                 <div class="text-sm text-ellipsis truncate " >{{ inputSearchHeaderDesc() }}</div>
             </div>
@@ -90,6 +95,8 @@ async function clickSearch(){
                         :inputDataForSearch="inputDataForSearch"
                         :setInputDataForSearch="setInputDataForSearch"
                         :isModalShow="isModalShow"
+                        :inputActive="inputActive"
+                        :setInputActive="setInputActive"
                     />
                 </div>
                 <div class="flex flex-col sm:flex-row sm:justify-between mb-5 lg:w-6/12 lg:mr-3">

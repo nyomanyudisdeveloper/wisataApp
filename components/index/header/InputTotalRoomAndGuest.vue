@@ -6,6 +6,7 @@ const {inputDataForSearch,setInputDataForSearch} = defineProps({
     inputDataForSearch:{type:Object,required:true},
     setInputDataForSearch:{type:Object,required:true},
 })
+
 const isModalInputShow = ref(false)
 const isModalChildren = ref(false)
 
